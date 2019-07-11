@@ -17,8 +17,9 @@ export class BlockChainCreator {
     async addBlockToChain(fileName: string, data: string) {
         const chain = await this.getChain(fileName);
         const lastBlock = this.getLastBlock(chain);
-        console.log(lastBlock);
         const newBlock = this.blockCreator.createNextBlock(lastBlock, data);
+        chain.push(newBlock);
+        await this.writeChainToFile(fileName, chain);
     }
 
     private async writeChainToFile(fileName: string, chain: Block[]) {
@@ -30,7 +31,7 @@ export class BlockChainCreator {
     }
 
     private getLastBlock(chain: Block[]): Block {
-        return [...chain].pop();
+        return [...chain].pop() as Block;
     }
 
     private async getChain(fileName: string): Promise<Block[]> {
@@ -38,9 +39,3 @@ export class BlockChainCreator {
         return JSON.parse(chainFileString);
     }
 }
-
-const creator = new BlockCreator();
-const chainCreator = new BlockChainCreator(creator);
-
-chainCreator.addBlockToChain("testChain", "foobar")
-    .then(() => console.log("Worked")).catch(err => console.log(err));
