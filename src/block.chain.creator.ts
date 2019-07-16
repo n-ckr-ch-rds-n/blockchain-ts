@@ -1,10 +1,15 @@
 import {BlockCreator} from "./block.creator";
 import {Block} from "./block";
 import {FileService} from "./file.service";
+import {Transaction} from "./transaction";
 
 export class BlockChainCreator {
+    pendingTransactions: Transaction[];
+
     constructor(private blockCreator: BlockCreator,
-                private fileService: FileService) {}
+                private fileService: FileService) {
+        this.pendingTransactions = [];
+    }
 
     async createBlockchain(fileName: string): Promise<void> {
         const chainInit = [this.blockCreator.createGenesisBlock()];

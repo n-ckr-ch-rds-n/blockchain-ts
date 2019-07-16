@@ -6,6 +6,6 @@ export class BlockCreator {
     }
 
     public createNextBlock(lastBlock: Block, data: string): Block {
-        return new Block(lastBlock.index + 1, Date.now(), data, lastBlock.thisHash);
+        return new Block(lastBlock.index + 1, Date.now(), data, lastBlock.hash);
     }
 }

@@ -14,8 +14,8 @@ export class FileService {
         }
     }
 
-    async getChain(fileName: string): Promise<Block[]> {
-        const chainFileString = await readFileSync(`${this.chainsDir}/${fileName}${this.fileSuffix}`, "utf8");
+    getChain(fileName: string): Block[] {
+        const chainFileString = readFileSync(`${this.chainsDir}/${fileName}${this.fileSuffix}`, "utf8");
         return JSON.parse(chainFileString);
     }
 }

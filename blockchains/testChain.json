@@ -1,3 +1,0 @@
-[{"index":0,"timestamp":1562859542457,"data":"Genesis Block","prevHash":"0","thisHash":"52a5f5e7772eea179741508b3b31f052c3e287aa8482622ed5de58dc1fb5212e"},
-  {"index":1,"timestamp":1562859716702,"data":"foobar","prevHash":"52a5f5e7772eea179741508b3b31f052c3e287aa8482622ed5de58dc1fb5212e","thisHash":"9d47bcdc6bb9c9f6c3f1b3c01846f0b26a5798da0e2fdb8f027d8d0dabf39b66"},
-  {"index":2,"timestamp":1562859766824,"data":"foobar","prevHash":"9d47bcdc6bb9c9f6c3f1b3c01846f0b26a5798da0e2fdb8f027d8d0dabf39b66","thisHash":"ba137fa450abeed3d326091d4e02fd9e02231d6d7f7c1951760295d9d61bb25f"}]
