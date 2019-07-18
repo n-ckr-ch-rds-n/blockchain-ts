@@ -27,18 +27,18 @@ export class BlockCreator {
             block.hash = this.hashCalculator.calculateHash(block);
             this.logger.logHash(block.hash);
         }
-        this.logger.logSuccess(SuccessMessage.blockMined)
+        this.logger.logSuccess(SuccessMessage.blockMined);
         this.logger.logHash(block.hash);
         return block;
     }
 
     private toUnhashedBlock(data: string, lastBlock?: Block): UnhashedBlock {
         return {
-            nonce: 0,
             index: lastBlock ? lastBlock.index + 1 : 0,
+            nonce: 0,
             timeStamp: Date.now().toString(),
             data,
-            prevHash: lastBlock ? lastBlock.hash : ""
+            prevHash: lastBlock ? lastBlock.hash : "No previous"
         };
     }
 }
