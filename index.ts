@@ -4,8 +4,11 @@ import * as program from "commander";
 import {BlockChainCreator} from "./src/block.chain.creator";
 import {BlockChainValidator} from "./src/block.chain.validator";
 import {BlockCreator} from "./src/block.creator";
+import {ErrorMessage} from "./src/error.message";
 import {FileService} from "./src/file.service";
 import {HashCalculator} from "./src/hash.calculator";
+import {Logger} from "./src/logger";
+import {SuccessMessage} from "./src/success.message";
 
 program
     .option("-i, --init <filename>", "Initialise blockchain")
@@ -14,12 +17,12 @@ program
     .option("-v --validate", "Validate block")
     .parse(process.argv);
 
+const logger = new Logger();
 const fileService = new FileService();
 const hashCalculator = new HashCalculator();
 const blockCreator = new BlockCreator(hashCalculator);
 const chainCreator = new BlockChainCreator(blockCreator, fileService);
 const chainValidator = new BlockChainValidator(fileService, hashCalculator);
-const noFilename = chalk.red("Filename is required to perform this operation. Use the -f flag");
 
 function filenameSupplied(): boolean {
     return !!program.filename;
@@ -27,17 +30,17 @@ function filenameSupplied(): boolean {
 
 if (program.init) {
     chainCreator.createBlockchain(program.init)
-        .then(() => console.log("Blockchain created"))
-        .catch((err) => console.log(chalk.red(err)));
+        .then(() => logger.logSuccess(SuccessMessage.blockchainCreated))
+        .catch((err) => logger.logError(err));
 }
 
 if (program.add) {
     if (filenameSupplied()) {
         chainCreator.addBlockToChain(program.filename, program.add)
-            .then(() => console.log(chalk.green("Block added to chain")))
-            .catch((err) => console.log(chalk.red(err)));
+            .then(() => logger.logSuccess(SuccessMessage.blockAdded))
+            .catch((err) => logger.logError(err));
     } else {
-        console.log(noFilename);
+        logger.logError(ErrorMessage.noFilename);
     }
 }
 
@@ -45,6 +48,6 @@ if (program.validate) {
     if (filenameSupplied()) {
         chainValidator.validateBlock(program.filename);
     } else {
-        console.log(noFilename);
+        logger.logError(ErrorMessage.noFilename);
     }
 }
