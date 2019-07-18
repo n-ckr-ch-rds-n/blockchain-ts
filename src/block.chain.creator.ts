@@ -19,7 +19,7 @@ export class BlockChainCreator {
     public async addBlockToChain(fileName: string, data: string) {
         const chain = await this.fileService.getChain(fileName);
         const lastBlock = this.getLastBlock(chain);
-        const newBlock = this.blockCreator.createNextBlock(lastBlock, data);
+        const newBlock = await this.blockCreator.createNextBlock(lastBlock, data);
         chain.push(newBlock);
         await this.fileService.writeChainToFile(fileName, chain);
     }
