@@ -4,6 +4,7 @@ import {BlockChainCreator} from "./src/block.chain.creator";
 import {BlockChainValidator} from "./src/block.chain.validator";
 import {BlockCreator} from "./src/block.creator";
 import {FileService} from "./src/file.service";
+import {HashCalculator} from "./src/hash.calculator";
 
 program
     .option("-i, --init [filename]", "Initialise blockchain")
@@ -13,9 +14,10 @@ program
     .parse(process.argv);
 
 const fileService = new FileService();
-const blockCreator = new BlockCreator();
+const hashCalculator = new HashCalculator();
+const blockCreator = new BlockCreator(hashCalculator);
 const chainCreator = new BlockChainCreator(blockCreator, fileService);
-const chainValidator = new BlockChainValidator(fileService);
+const chainValidator = new BlockChainValidator(fileService, hashCalculator);
 const noFilename = "Filename is required to perform this operation";
 
 function filenameSupplied(): boolean {

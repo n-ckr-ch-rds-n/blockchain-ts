@@ -31,10 +31,10 @@ export class BlockCreator {
     private toUnhashedBlock(data: string, lastBlock?: Block): UnhashedBlock {
         return {
             nonce: 0,
-            index: lastBlock.index + 1 || 0,
+            index: lastBlock ? lastBlock.index + 1 : 0,
             timeStamp: Date.now().toString(),
             data,
-            prevHash: lastBlock.hash || ""
+            prevHash: lastBlock ? lastBlock.hash : ""
         };
     }
 }
