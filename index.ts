@@ -4,6 +4,8 @@ import {BlockChainCreator} from "./src/block.chain.creator";
 import {BlockCreator} from "./src/block.creator";
 import {FileService} from "./src/file.service";
 
+console.log(process.cwd());
+
 program
     .option("-i, --init", "Initialise blockchain")
     .option("-f --filename <filename>", "Blockchain filename")

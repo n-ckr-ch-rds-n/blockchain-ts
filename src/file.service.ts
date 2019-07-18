@@ -1,9 +1,9 @@
-import {Block} from "./block";
 import {readFileSync, writeFileSync} from "fs";
 import * as path from "path";
+import {Block} from "./block";
 
 export class FileService {
-    chainsDir = path.join(__dirname, "../blockchains");
+    chainsDir = process.cwd();
     fileSuffix = ".json";
 
     async writeChainToFile(fileName: string, chain: Block[]) {
