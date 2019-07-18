@@ -1,5 +1,4 @@
 #!/usr/bin/env ts-node
-import chalk from "chalk";
 import * as program from "commander";
 import {BlockChainCreator} from "./src/block.chain.creator";
 import {BlockChainValidator} from "./src/block.chain.validator";
@@ -18,11 +17,11 @@ program
     .parse(process.argv);
 
 const logger = new Logger();
-const fileService = new FileService();
+const fileService = new FileService(logger);
 const hashCalculator = new HashCalculator();
-const blockCreator = new BlockCreator(hashCalculator);
+const blockCreator = new BlockCreator(hashCalculator, logger);
 const chainCreator = new BlockChainCreator(blockCreator, fileService);
-const chainValidator = new BlockChainValidator(fileService, hashCalculator);
+const chainValidator = new BlockChainValidator(fileService, hashCalculator, logger);
 
 function filenameSupplied(): boolean {
     return !!program.filename;

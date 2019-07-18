@@ -1,15 +1,18 @@
 import {readFileSync, writeFileSync} from "fs";
 import {Block} from "./block";
+import {Logger} from "./logger";
 
 export class FileService {
     chainsDir = process.cwd();
     fileSuffix = ".json";
 
+    constructor(private logger: Logger) {}
+
     async writeChainToFile(fileName: string, chain: Block[]) {
         try {
             await writeFileSync(`${this.chainsDir}/${fileName}${this.fileSuffix}`, JSON.stringify(chain));
         } catch (err) {
-            console.log(err);
+            this.logger.logError(err);
         }
     }
 

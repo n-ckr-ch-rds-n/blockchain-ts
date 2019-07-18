@@ -1,14 +1,18 @@
 import chalk from "chalk";
 import {Block} from "./block";
+import {ErrorMessage} from "./error.message";
 import {FileService} from "./file.service";
 import {HashCalculator} from "./hash.calculator";
+import {Logger} from "./logger";
+import {SuccessMessage} from "./success.message";
 import {UnhashedBlock} from "./unhashed.block";
 
 export class BlockChainValidator {
     chain: Block[];
 
     constructor(private fileService: FileService,
-                private hashCalculator: HashCalculator) {
+                private hashCalculator: HashCalculator,
+                private logger: Logger) {
     }
 
     public validateBlock(filename: string): void {
@@ -40,8 +44,8 @@ export class BlockChainValidator {
 
     private logMessages(chainValid: boolean, invalidBlocks: Block[]): void {
         chainValid
-            ? console.log(chalk.green("Chain is valid!"))
-            : console.log(chalk.bgRed("Chain is invalid!") + chalk.red(` The following blocks are corrupted: ` +
-            `${JSON.stringify(invalidBlocks.map((block) => block.index))}`));
+            ? this.logger.logSuccess(SuccessMessage.chainValid)
+            : this.logger.logError(`${ErrorMessage.chainInvalid}` +
+                `${JSON.stringify(invalidBlocks.map((block) => block.index))}`);
     }
 }
