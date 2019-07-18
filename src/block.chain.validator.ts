@@ -1,10 +1,13 @@
 import {Block} from "./block";
 import {FileService} from "./file.service";
+import {HashCalculator} from "./hash.calculator";
+import {UnhashedBlock} from "./unhashed.block";
 
 export class BlockChainValidator {
     chain: Block[];
 
-    constructor(private fileService: FileService) {
+    constructor(private fileService: FileService,
+                private hashCalculator: HashCalculator) {
     }
 
     public validateBlock(filename: string): void {
@@ -17,6 +20,13 @@ export class BlockChainValidator {
     }
 
     public isValid(block: Block): boolean {
-        return block.hash === block.calculateHash() && block.prevHash === this.chain[block.index - 1].hash;
+        return block.hash === this.hashCalculator.calculateHash(this.toUnhashed(block))
+            && block.prevHash === this.chain[block.index - 1].hash;
+    }
+
+    private toUnhashed(block: Block): UnhashedBlock {
+        const unhashed = {...block};
+        delete unhashed.hash;
+        return unhashed;
     }
 }
