@@ -7,7 +7,7 @@ export class BlockChainCreator {
                 private fileService: FileService) {
     }
 
-    public async createBlockchain(fileName: string = "blockchain"): Promise<void> {
+    public async createBlockchain(fileName: string): Promise<void> {
         const chainInit = [this.blockCreator.createGenesisBlock()];
         await this.fileService.writeChainToFile(fileName, chainInit);
     }

@@ -11,19 +11,27 @@ export class BlockChainValidator {
     }
 
     public validateBlock(filename: string): void {
+        let chainValid: boolean;
+        const invalidBlocks: Block[] = [];
         this.chain = this.fileService.getChain(filename);
         this.chain.forEach((block) => {
             console.log(block);
             if (!this.isValid(block)) {
-                throw new Error(`Block ${block.index} is invalid`);
+                chainValid = false;
+                invalidBlocks.push(block);
             }
         });
-        console.log("Chain is valid!");
+        chainValid
+            ? console.log("Chain is valid!")
+            : console.log(`Chain is invalid. The following blocks are corrupted:
+                ${JSON.stringify(invalidBlocks.map((block) => block.index))}`);
     }
 
     public isValid(block: Block): boolean {
-        return block.index === 0 ? true : block.hash === this.hashCalculator.calculateHash(this.toUnhashed(block))
-            && block.prevHash === this.chain[block.index - 1].hash;
+        return block.index === 0
+            ? block.hash === this.hashCalculator.calculateHash(this.toUnhashed(block))
+            : block.hash === this.hashCalculator.calculateHash(this.toUnhashed(block))
+                && block.prevHash === this.chain[block.index - 1].hash;
     }
 
     private toUnhashed(block: Block): UnhashedBlock {
