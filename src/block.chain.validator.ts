@@ -13,14 +13,16 @@ export class BlockChainValidator {
     public validateBlock(filename: string): void {
         this.chain = this.fileService.getChain(filename);
         this.chain.forEach((block) => {
+            console.log(block);
             if (!this.isValid(block)) {
                 throw new Error(`Block ${block.index} is invalid`);
             }
         });
+        console.log("Chain is valid!");
     }
 
     public isValid(block: Block): boolean {
-        return block.hash === this.hashCalculator.calculateHash(this.toUnhashed(block))
+        return block.index === 0 ? true : block.hash === this.hashCalculator.calculateHash(this.toUnhashed(block))
             && block.prevHash === this.chain[block.index - 1].hash;
     }
 

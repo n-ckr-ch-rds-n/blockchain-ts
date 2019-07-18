@@ -18,7 +18,7 @@ const hashCalculator = new HashCalculator();
 const blockCreator = new BlockCreator(hashCalculator);
 const chainCreator = new BlockChainCreator(blockCreator, fileService);
 const chainValidator = new BlockChainValidator(fileService, hashCalculator);
-const noFilename = "Filename is required to perform this operation";
+const noFilename = "Filename is required to perform this operation. Use the -f flag";
 
 function filenameSupplied(): boolean {
     return !!program.filename;
