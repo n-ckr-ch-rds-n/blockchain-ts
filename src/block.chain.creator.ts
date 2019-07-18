@@ -23,5 +23,4 @@ export class BlockChainCreator {
     private getLastBlock(chain: Block[]): Block {
         return [...chain].pop() as Block;
     }
-
 }

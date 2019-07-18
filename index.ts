@@ -7,7 +7,7 @@ import {FileService} from "./src/file.service";
 import {HashCalculator} from "./src/hash.calculator";
 
 program
-    .option("-i, --init [filename]", "Initialise blockchain")
+    .option("-i, --init <filename>", "Initialise blockchain")
     .option("-a --add [data]", "Add a block")
     .option("-f --filename <filename>", "Filename")
     .option("-v --validate", "Validate block")
