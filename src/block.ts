@@ -12,15 +12,6 @@ export class Block {
     }
 
     calculateHash() {
-        return sha256(`${this.index}${this.timestamp}${this.data}${this.prevHash}${this.nonce}`)
-    }
-
-    mineBlock(difficulty: number) {
-        while (this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")) {
-            this.nonce++;
-            this.hash = this.calculateHash();
-        }
-
-        console.log("Block mined: ", this.hash);
+        return sha256(`${this.index}${this.timestamp}${this.data}${this.prevHash}${this.nonce}`);
     }
 }

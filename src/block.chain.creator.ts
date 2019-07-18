@@ -1,14 +1,10 @@
-import {BlockCreator} from "./block.creator";
 import {Block} from "./block";
+import {BlockCreator} from "./block.creator";
 import {FileService} from "./file.service";
-import {Transaction} from "./transaction";
 
 export class BlockChainCreator {
-    public pendingTransactions: Transaction[];
-
     constructor(private blockCreator: BlockCreator,
                 private fileService: FileService) {
-        this.pendingTransactions = [];
     }
 
     public async createBlockchain(fileName: string = "blockchain"): Promise<void> {

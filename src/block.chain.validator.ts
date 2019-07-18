@@ -10,7 +10,7 @@ export class BlockChainValidator {
         return this.fileService.getChain(this.fileName);
     }
 
-    validateBlock(): void {
+    public validateBlock(): void {
         this.chain.forEach(block => {
             if (!this.isValid(block)) {
                 throw new Error(`Block ${block.index} is invalid`);
@@ -18,7 +18,7 @@ export class BlockChainValidator {
         });
     }
 
-    isValid(block: Block): boolean {
+    public isValid(block: Block): boolean {
         return block.hash === block.calculateHash() && block.prevHash === this.chain[block.index - 1].hash;
     }
 }
