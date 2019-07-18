@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import {Block} from "./block";
 import {FileService} from "./file.service";
 import {HashCalculator} from "./hash.calculator";
@@ -11,7 +12,7 @@ export class BlockChainValidator {
     }
 
     public validateBlock(filename: string): void {
-        let chainValid: boolean;
+        let chainValid: boolean = true;
         const invalidBlocks: Block[] = [];
         this.chain = this.fileService.getChain(filename);
         this.chain.forEach((block) => {
@@ -21,10 +22,7 @@ export class BlockChainValidator {
                 invalidBlocks.push(block);
             }
         });
-        chainValid
-            ? console.log("Chain is valid!")
-            : console.log(`Chain is invalid. The following blocks are corrupted:
-                ${JSON.stringify(invalidBlocks.map((block) => block.index))}`);
+        this.logMessages(chainValid, invalidBlocks);
     }
 
     public isValid(block: Block): boolean {
@@ -38,5 +36,12 @@ export class BlockChainValidator {
         const unhashed = {...block};
         delete unhashed.hash;
         return unhashed;
+    }
+
+    private logMessages(chainValid: boolean, invalidBlocks: Block[]): void {
+        chainValid
+            ? console.log(chalk.green("Chain is valid!"))
+            : console.log(chalk.bgRed("Chain is invalid!") + chalk.red(` The following blocks are corrupted: ` +
+            `${JSON.stringify(invalidBlocks.map((block) => block.index))}`));
     }
 }

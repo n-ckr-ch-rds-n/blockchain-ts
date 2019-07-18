@@ -1,4 +1,5 @@
 #!/usr/bin/env ts-node
+import chalk from "chalk";
 import * as program from "commander";
 import {BlockChainCreator} from "./src/block.chain.creator";
 import {BlockChainValidator} from "./src/block.chain.validator";
@@ -18,7 +19,7 @@ const hashCalculator = new HashCalculator();
 const blockCreator = new BlockCreator(hashCalculator);
 const chainCreator = new BlockChainCreator(blockCreator, fileService);
 const chainValidator = new BlockChainValidator(fileService, hashCalculator);
-const noFilename = "Filename is required to perform this operation. Use the -f flag";
+const noFilename = chalk.red("Filename is required to perform this operation. Use the -f flag");
 
 function filenameSupplied(): boolean {
     return !!program.filename;
@@ -27,14 +28,14 @@ function filenameSupplied(): boolean {
 if (program.init) {
     chainCreator.createBlockchain(program.init)
         .then(() => console.log("Blockchain created"))
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(chalk.red(err)));
 }
 
 if (program.add) {
     if (filenameSupplied()) {
         chainCreator.addBlockToChain(program.filename, program.add)
-            .then(() => console.log("Block added to chain"))
-            .catch((err) => console.log(err));
+            .then(() => console.log(chalk.green("Block added to chain")))
+            .catch((err) => console.log(chalk.red(err)));
     } else {
         console.log(noFilename);
     }
