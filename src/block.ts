@@ -1,17 +1,5 @@
-import * as sha256 from "sha256";
+import {UnhashedBlock} from "./unhashed.block";
 
-export class Block {
+export interface Block extends UnhashedBlock {
     hash: string;
-    nonce = 0;
-
-    constructor(public index: number,
-                public timestamp: number,
-                public data: string,
-                public prevHash: string) {
-        this.hash = this.calculateHash();
-    }
-
-    calculateHash() {
-        return sha256(`${this.index}${this.timestamp}${this.data}${this.prevHash}${this.nonce}`);
-    }
 }

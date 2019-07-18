@@ -1,5 +1,4 @@
 import {readFileSync, writeFileSync} from "fs";
-import * as path from "path";
 import {Block} from "./block";
 
 export class FileService {
@@ -16,6 +15,6 @@ export class FileService {
 
     getChain(fileName: string): Block[] {
         const chainFileString = readFileSync(`${this.chainsDir}/${fileName}${this.fileSuffix}`, "utf8");
-        return JSON.parse(chainFileString);
+        return JSON.parse(chainFileString) as Block[];
     }
 }

@@ -2,16 +2,14 @@ import {Block} from "./block";
 import {FileService} from "./file.service";
 
 export class BlockChainValidator {
-    constructor(private fileService: FileService,
-                private fileName: string) {
+    chain: Block[];
+
+    constructor(private fileService: FileService) {
     }
 
-    get chain(): Block[] {
-        return this.fileService.getChain(this.fileName);
-    }
-
-    public validateBlock(): void {
-        this.chain.forEach(block => {
+    public validateBlock(filename: string): void {
+        this.chain = this.fileService.getChain(filename);
+        this.chain.forEach((block) => {
             if (!this.isValid(block)) {
                 throw new Error(`Block ${block.index} is invalid`);
             }
