@@ -1,4 +1,5 @@
 import {Block} from "./block";
+import {CreateBlockRequest} from "./create.block.request";
 import {HashCalculator} from "./hash.calculator";
 import {Logger} from "./logger";
 import {SuccessMessage} from "./success.message";
@@ -15,10 +16,10 @@ export class BlockCreator {
         return {...unhashed, hash};
     }
 
-    public async createNewBlock(lastBlock: Block, data: string): Promise<Block> {
-        const unhashed = this.toUnhashedBlock(data, lastBlock);
+    public async createNewBlock(request: CreateBlockRequest): Promise<Block> {
+        const unhashed = this.toUnhashedBlock(request.data, request.lastBlock);
         const hash = this.hashCalculator.calculateHash(unhashed);
-        return await this.mineBlock({...unhashed, hash}, 2);
+        return await this.mineBlock({...unhashed, hash}, request.difficulty);
     }
 
     private async mineBlock(block: Block, difficulty: number): Promise<Block> {
