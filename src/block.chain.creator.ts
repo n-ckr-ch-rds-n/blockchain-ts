@@ -8,7 +8,7 @@ export class BlockChainCreator {
     }
 
     public async createBlockchain(fileName: string, difficulty?: number): Promise<void> {
-        const chainInit = { difficulty: difficulty.toString(), chain: [this.blockCreator.createGenesisBlock()] };
+        const chainInit = { difficulty, chain: [this.blockCreator.createGenesisBlock()] };
         await this.fileService.writeChainToFile(fileName, chainInit);
     }
 
@@ -19,7 +19,7 @@ export class BlockChainCreator {
             await this.blockCreator.createNewBlock({
                 lastBlock,
                 data,
-                difficulty: parseInt(blockchain.difficulty, 10)
+                difficulty: blockchain.difficulty
             });
         blockchain.chain.push(newBlock);
         await this.fileService.writeChainToFile(fileName, blockchain);

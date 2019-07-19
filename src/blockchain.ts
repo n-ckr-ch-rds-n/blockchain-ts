@@ -1,6 +1,6 @@
 import {Block} from "./block";
 
 export interface Blockchain {
-    difficulty: string;
+    difficulty: number;
     chain: Block[];
 }

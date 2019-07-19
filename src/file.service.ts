@@ -8,7 +8,7 @@ export class FileService {
 
     constructor(private logger: Logger) {}
 
-    async writeChainToFile(fileName: string, chain: Blockchain) {
+    async writeChainToFile(fileName: string, chain: Blockchain): Promise<void> {
         try {
             await writeFileSync(`${this.chainsDir}/${fileName}${this.fileSuffix}`, JSON.stringify(chain));
         } catch (err) {
@@ -18,6 +18,8 @@ export class FileService {
 
     getChain(fileName: string): Blockchain {
         const chainFileString = readFileSync(`${this.chainsDir}/${fileName}${this.fileSuffix}`, "utf8");
-        return JSON.parse(chainFileString) as Blockchain;
+        const chain = JSON.parse(chainFileString);
+        chain.difficulty = parseInt(chain.difficulty, 10);
+        return chain as Blockchain;
     }
 }

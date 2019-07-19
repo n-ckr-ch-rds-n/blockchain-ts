@@ -1,6 +1,6 @@
 export interface UnhashedBlock {
-    nonce: number;
     index: number;
+    nonce: number;
     prevHash: string;
     timeStamp: string;
     data: string;
