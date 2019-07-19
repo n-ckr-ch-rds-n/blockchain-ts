@@ -29,10 +29,18 @@ function filenameSupplied(): boolean {
     return !!program.filename;
 }
 
+function difficultyIsNumber(difficulty: string): boolean {
+    return !isNaN(parseInt(difficulty, 10));
+}
+
 if (program.init) {
-    chainCreator.createBlockchain(program.init, program.difficulty || defaultDifficulty)
-        .then(() => logger.logSuccess(SuccessMessage.blockchainCreated))
-        .catch((err) => logger.logError(err));
+    if (program.difficulty && !difficultyIsNumber(program.difficulty)) {
+        logger.logError(ErrorMessage.difficultyNotNumber);
+    } else {
+        chainCreator.createBlockchain(program.init, program.difficulty || defaultDifficulty)
+            .then(() => logger.logSuccess(SuccessMessage.blockchainCreated))
+            .catch((err) => logger.logError(err));
+    }
 }
 
 if (program.add) {

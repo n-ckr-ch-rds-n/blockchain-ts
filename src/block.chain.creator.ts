@@ -1,6 +1,5 @@
 import {Block} from "./block";
 import {BlockCreator} from "./block.creator";
-import {CreateBlockRequest} from "./create.block.request";
 import {FileService} from "./file.service";
 
 export class BlockChainCreator {
@@ -16,7 +15,6 @@ export class BlockChainCreator {
     public async addBlockToChain(fileName: string, data: string) {
         const blockchain = await this.fileService.getChain(fileName);
         const lastBlock = this.getLastBlock(blockchain.chain);
-        console.log(typeof parseInt(blockchain.difficulty, 10));
         const newBlock =
             await this.blockCreator.createNewBlock({
                 lastBlock,
