@@ -15,7 +15,7 @@ export class BlockCreator {
         return {...unhashed, hash};
     }
 
-    public async createNextBlock(lastBlock: Block, data: string): Promise<Block> {
+    public async createNewBlock(lastBlock: Block, data: string): Promise<Block> {
         const unhashed = this.toUnhashedBlock(data, lastBlock);
         const hash = this.hashCalculator.calculateHash(unhashed);
         return await this.mineBlock({...unhashed, hash}, 2);

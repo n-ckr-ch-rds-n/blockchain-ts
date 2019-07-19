@@ -1,5 +1,5 @@
 import {readFileSync, writeFileSync} from "fs";
-import {Block} from "./block";
+import {Blockchain} from "./blockchain";
 import {Logger} from "./logger";
 
 export class FileService {
@@ -8,7 +8,7 @@ export class FileService {
 
     constructor(private logger: Logger) {}
 
-    async writeChainToFile(fileName: string, chain: Block[]) {
+    async writeChainToFile(fileName: string, chain: Blockchain) {
         try {
             await writeFileSync(`${this.chainsDir}/${fileName}${this.fileSuffix}`, JSON.stringify(chain));
         } catch (err) {
@@ -16,8 +16,8 @@ export class FileService {
         }
     }
 
-    getChain(fileName: string): Block[] {
+    getChain(fileName: string): Blockchain {
         const chainFileString = readFileSync(`${this.chainsDir}/${fileName}${this.fileSuffix}`, "utf8");
-        return JSON.parse(chainFileString) as Block[];
+        return JSON.parse(chainFileString) as Blockchain;
     }
 }

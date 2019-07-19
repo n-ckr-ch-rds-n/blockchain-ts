@@ -18,7 +18,7 @@ export class BlockChainValidator {
     public validateBlock(filename: string): void {
         let chainValid: boolean = true;
         const invalidBlocks: Block[] = [];
-        this.chain = this.fileService.getChain(filename);
+        this.chain = this.fileService.getChain(filename).chain;
         this.chain.forEach((block) => {
             console.log(block);
             if (!this.isValid(block)) {

@@ -7,20 +7,20 @@ export class BlockChainCreator {
                 private fileService: FileService) {
     }
 
-    public async createBlockchain(fileName: string): Promise<void> {
-        const chainInit = [this.blockCreator.createGenesisBlock()];
+    public async createBlockchain(fileName: string, difficulty?: number): Promise<void> {
+        const chainInit = { difficulty, chain: [this.blockCreator.createGenesisBlock()] };
         await this.fileService.writeChainToFile(fileName, chainInit);
     }
 
     public async addBlockToChain(fileName: string, data: string) {
-        const chain = await this.fileService.getChain(fileName);
-        const lastBlock = this.getLastBlock(chain);
-        const newBlock = await this.blockCreator.createNextBlock(lastBlock, data);
-        chain.push(newBlock);
-        await this.fileService.writeChainToFile(fileName, chain);
+        const blockchain = await this.fileService.getChain(fileName);
+        const lastBlock = this.getLastBlock(blockchain.chain);
+        const newBlock = await this.blockCreator.createNewBlock(lastBlock, data);
+        blockchain.chain.push(newBlock);
+        await this.fileService.writeChainToFile(fileName, blockchain);
     }
 
     private getLastBlock(chain: Block[]): Block {
-        return [...chain].pop() as Block;
+        return [...chain].pop();
     }
 }

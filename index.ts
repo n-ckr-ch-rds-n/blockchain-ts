@@ -11,6 +11,7 @@ import {SuccessMessage} from "./src/success.message";
 
 program
     .option("-i, --init <filename>", "Initialise blockchain")
+    .option("-d --difficulty [difficulty]", "Mining difficulty")
     .option("-a --add [data]", "Add a block")
     .option("-f --filename <filename>", "Filename")
     .option("-v --validate", "Validate block")
@@ -22,13 +23,14 @@ const hashCalculator = new HashCalculator();
 const blockCreator = new BlockCreator(hashCalculator, logger);
 const chainCreator = new BlockChainCreator(blockCreator, fileService);
 const chainValidator = new BlockChainValidator(fileService, hashCalculator, logger);
+const defaultDifficulty = 2;
 
 function filenameSupplied(): boolean {
     return !!program.filename;
 }
 
 if (program.init) {
-    chainCreator.createBlockchain(program.init)
+    chainCreator.createBlockchain(program.init, program.difficulty || defaultDifficulty)
         .then(() => logger.logSuccess(SuccessMessage.blockchainCreated))
         .catch((err) => logger.logError(err));
 }
