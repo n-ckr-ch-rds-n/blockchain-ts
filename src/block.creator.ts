@@ -1,3 +1,4 @@
+import {range} from "lodash";
 import {Block} from "./block";
 import {CreateBlockRequest} from "./create.block.request";
 import {HashCalculator} from "./hash.calculator";
@@ -22,8 +23,12 @@ export class BlockCreator {
         return await this.mineBlock({...unhashed, hash}, request.difficulty);
     }
 
+    public toHashPrefix(difficulty: number): string {
+        return range(0, difficulty).map(() => 0).join("");
+    }
+
     private async mineBlock(block: Block, difficulty: number): Promise<Block> {
-        while (block.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")) {
+        while (!block.hash.startsWith(this.toHashPrefix(difficulty))) {
             block.nonce++;
             block.hash = this.hashCalculator.calculateHash(block);
             this.logger.logHash(block.hash);
