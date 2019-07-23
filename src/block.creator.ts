@@ -7,12 +7,14 @@ import {SuccessMessage} from "./success.message";
 import {UnhashedBlock} from "./unhashed.block";
 
 export class BlockCreator {
+    genesisData = "Genesis block";
+
     constructor(private hashCalculator: HashCalculator,
                 private logger: Logger) {
     }
 
     public createGenesisBlock(): Block {
-        const unhashed = this.toUnhashedBlock("Genesis block");
+        const unhashed = this.toUnhashedBlock(this.genesisData);
         const hash = this.hashCalculator.calculateHash(unhashed);
         return {...unhashed, hash};
     }
@@ -21,10 +23,6 @@ export class BlockCreator {
         const unhashed = this.toUnhashedBlock(request.data, request.lastBlock);
         const hash = this.hashCalculator.calculateHash(unhashed);
         return await this.mineBlock({...unhashed, hash}, request.difficulty);
-    }
-
-    public toHashPrefix(difficulty: number): string {
-        return range(0, difficulty).map(() => 0).join("");
     }
 
     private async mineBlock(block: Block, difficulty: number): Promise<Block> {
@@ -46,5 +44,9 @@ export class BlockCreator {
             data,
             prevHash: lastBlock ? lastBlock.hash : "No previous"
         };
+    }
+
+    private toHashPrefix(difficulty: number): string {
+        return range(0, difficulty).map(() => 0).join("");
     }
 }
