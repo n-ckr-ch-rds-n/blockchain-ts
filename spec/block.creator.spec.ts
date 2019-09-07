@@ -5,11 +5,12 @@ import {BlockCreator} from "../src/block.creator";
 import {CreateBlockRequest} from "../src/create.block.request";
 import {HashCalculator} from "../src/hash.calculator";
 import {Logger} from "../src/logger";
+import {MockLogger} from "./mock.logger";
 
 describe("Block creator", () => {
     let blockCreator: BlockCreator;
     let mockCalculator: HashCalculator;
-    let mockLogger: Logger;
+    let mockLogger: MockLogger;
     let difficulty: number;
     let mockBlock: Block;
 
@@ -17,11 +18,7 @@ describe("Block creator", () => {
         mockCalculator = {
             calculateHash: () => "00"
         };
-        mockLogger = {
-            logError: (err: string) => console.log("foo"),
-            logSuccess: (message: string) => console.log("bar"),
-            logHash: (hash: string) => console.log("baz")
-        };
+        mockLogger = new MockLogger();
         mockBlock = {
             index: 0,
             nonce: 0,
