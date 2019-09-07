@@ -12,15 +12,26 @@ describe("Blockchain validator", () => {
     let mockHashCalculator: HashCalculator;
     let mockLogger: MockLogger;
     let mockGenesisBlock: Block;
+    let mockNonGenesisBlock: Block;
     let mockGenesisBlockHash: string;
+    let mockNonGenesisBlockHash: string;
 
     beforeEach(() => {
         mockGenesisBlockHash = "foo";
+        mockNonGenesisBlockHash = "bar";
         mockGenesisBlock = {
             hash: mockGenesisBlockHash,
             index: 0,
             nonce: 0,
             prevHash: "bar",
+            timeStamp: "baz",
+            data: "foobar"
+        };
+        mockNonGenesisBlock = {
+            hash: "bar",
+            index: 0,
+            nonce: 0,
+            prevHash: mockGenesisBlockHash,
             timeStamp: "baz",
             data: "foobar"
         };
@@ -41,5 +52,13 @@ describe("Blockchain validator", () => {
         expect(blockchainValidator.isValid(mockGenesisBlock)).to.eql(true);
         mockHashCalculator.calculateHash = () => "bar";
         expect(blockchainValidator.isValid(mockGenesisBlock)).to.eql(false);
+    });
+
+    it("Checks whether non-genesis blocks are valid", () => {
+        expect(blockchainValidator.isValid(mockNonGenesisBlock)).to.eql(false);
+        mockHashCalculator.calculateHash = () => mockNonGenesisBlockHash;
+        expect(blockchainValidator.isValid(mockNonGenesisBlock)).to.eql(true);
+        mockNonGenesisBlock.hash = "baz";
+        expect(blockchainValidator.isValid(mockNonGenesisBlock)).to.eql(false);
     });
 });
