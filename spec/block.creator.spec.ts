@@ -8,16 +8,20 @@ import {Logger} from "../src/logger";
 
 describe("Block creator", () => {
     let creator: BlockCreator;
-    let calculator: HashCalculator;
-    let logger: Logger;
+    let mockCalculator: HashCalculator;
+    let mockLogger: Logger;
     let difficulty: number;
     let mockBlock: Block;
 
     beforeEach(() => {
-        calculator = {
+        mockCalculator = {
             calculateHash: () => "00"
         };
-        logger = new Logger();
+        mockLogger = {
+            logError: (err: string) => console.log("foo"),
+            logSuccess: (message: string) => console.log("bar"),
+            logHash: (hash: string) => console.log("baz")
+        };
         mockBlock = {
             index: 0,
             nonce: 0,
@@ -26,7 +30,7 @@ describe("Block creator", () => {
             data: "bar",
             hash: "foobar"
         };
-        creator = new BlockCreator(calculator, logger);
+        creator = new BlockCreator(mockCalculator, mockLogger);
     });
 
     it("Makes new blocks", async () => {
@@ -39,7 +43,7 @@ describe("Block creator", () => {
         expect(newBlock.data).to.eql("baz");
         expect(newBlock.hash.startsWith("00")).to.eql(true);
         difficulty = 3;
-        calculator.calculateHash = () => "000";
+        mockCalculator.calculateHash = () => "000";
         request = { lastBlock: mockBlock, data: "baz", difficulty };
         newBlock = await creator.createNewBlock(request);
         expect(newBlock.hash.startsWith("000")).to.eql(true);
