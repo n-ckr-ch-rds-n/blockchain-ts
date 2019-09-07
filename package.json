@@ -4,7 +4,7 @@
   "description": "Command line tool for making blockchains",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/mocha --require ts-node/register ./test/*.spec.ts",
     "create": "ts-node create.ts"
   },
   "bin": {

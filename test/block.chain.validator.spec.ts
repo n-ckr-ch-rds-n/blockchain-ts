@@ -77,5 +77,7 @@ describe("Blockchain validator", () => {
         blockchainValidator.validateBlock(mockFilename);
         expect(chainValidMessage.startsWith(ErrorMessage.chainInvalid)).to.eql(true);
         expect(chainValidMessage.endsWith("[1]")).to.eql(true);
+
+        this.writeFileSync = () => console.log("hi");
     });
 });
