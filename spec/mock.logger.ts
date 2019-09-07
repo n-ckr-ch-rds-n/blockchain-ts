@@ -1,13 +1,13 @@
 export class MockLogger {
     logError(err: string) {
-        console.log("foo");
+        console.log("Pretending to log an error...");
     }
 
     logSuccess(message: string) {
-        console.log("bar");
+        console.log("Pretending to log a success...");
     }
 
     logHash(hash: string) {
-        console.log("baz");
+        console.log("Pretending to log a hash...");
     }
 }
