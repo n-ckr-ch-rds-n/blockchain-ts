@@ -7,7 +7,7 @@ import {HashCalculator} from "../src/hash.calculator";
 import {Logger} from "../src/logger";
 
 describe("Block creator", () => {
-    let creator: BlockCreator;
+    let blockCreator: BlockCreator;
     let mockCalculator: HashCalculator;
     let mockLogger: Logger;
     let difficulty: number;
@@ -30,7 +30,7 @@ describe("Block creator", () => {
             data: "bar",
             hash: "foobar"
         };
-        creator = new BlockCreator(mockCalculator, mockLogger);
+        blockCreator = new BlockCreator(mockCalculator, mockLogger);
     });
 
     it("Makes new blocks", async () => {
@@ -38,20 +38,20 @@ describe("Block creator", () => {
         let request: CreateBlockRequest;
         difficulty = 2;
         request = { lastBlock: mockBlock, data: "baz", difficulty };
-        newBlock = await creator.createNewBlock(request);
+        newBlock = await blockCreator.createNewBlock(request);
         expect(newBlock.index).to.eql(1);
         expect(newBlock.data).to.eql("baz");
         expect(newBlock.hash.startsWith("00")).to.eql(true);
         difficulty = 3;
         mockCalculator.calculateHash = () => "000";
         request = { lastBlock: mockBlock, data: "baz", difficulty };
-        newBlock = await creator.createNewBlock(request);
+        newBlock = await blockCreator.createNewBlock(request);
         expect(newBlock.hash.startsWith("000")).to.eql(true);
     });
 
     it("Makes genesis blocks", () => {
-        const genesisBlock = creator.createGenesisBlock();
+        const genesisBlock = blockCreator.createGenesisBlock();
         expect(genesisBlock.index).to.eql(0);
-        expect(genesisBlock.data).to.eql(creator.genesisData);
+        expect(genesisBlock.data).to.eql(blockCreator.genesisData);
     });
 });
