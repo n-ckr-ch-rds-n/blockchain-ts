@@ -14,7 +14,9 @@ describe("Block creator", () => {
     let mockBlock: Block;
 
     beforeEach(() => {
-        calculator = new HashCalculator();
+        calculator = {
+            calculateHash: () => "00"
+        };
         logger = new Logger();
         mockBlock = {
             index: 0,
@@ -37,6 +39,7 @@ describe("Block creator", () => {
         expect(newBlock.data).to.eql("baz");
         expect(newBlock.hash.startsWith("00")).to.eql(true);
         difficulty = 3;
+        calculator.calculateHash = () => "000";
         request = { lastBlock: mockBlock, data: "baz", difficulty };
         newBlock = await creator.createNewBlock(request);
         expect(newBlock.hash.startsWith("000")).to.eql(true);
