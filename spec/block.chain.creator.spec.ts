@@ -8,7 +8,7 @@ import {CreateBlockRequest} from "../src/create.block.request";
 import {FileService} from "../src/file.service";
 
 describe("Blockchain creator", () => {
-    let creator: BlockChainCreator;
+    let blockChainCreator: BlockChainCreator;
     let mockBlockCreator: BlockCreator;
     let mockFileService: FileService;
     let mockBlock: Block;
@@ -40,18 +40,18 @@ describe("Blockchain creator", () => {
                 saveBlock = chain;
             }
         } as FileService;
-        creator = new BlockChainCreator(mockBlockCreator, mockFileService);
+        blockChainCreator = new BlockChainCreator(mockBlockCreator, mockFileService);
     });
 
     it("Creates blockchains", async () => {
-        await creator.createBlockchain(mockFilename, 2);
+        await blockChainCreator.createBlockchain(mockFilename, 2);
         expect(saveBlock.chain).to.eql([mockBlock]);
         expect(saveBlock.difficulty).to.eql(2);
         expect(saveFilename).to.eql(mockFilename);
     });
 
     it("Adds blocks to blockchains", async () => {
-        await creator.addBlockToChain(mockFilename, "mockdata");
+        await blockChainCreator.addBlockToChain(mockFilename, "mockdata");
         expect(saveBlock.chain.length).to.eql(2);
         expect(saveBlock.chain).to.eql([mockBlock, mockBlock]);
     });
