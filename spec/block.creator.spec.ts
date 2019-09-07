@@ -46,5 +46,5 @@ describe("Block creator", () => {
         const genesisBlock = creator.createGenesisBlock();
         expect(genesisBlock.index).to.eql(0);
         expect(genesisBlock.data).to.eql(creator.genesisData);
-    })
+    });
 });
