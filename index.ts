@@ -22,7 +22,6 @@ const fileService = new FileService(logger);
 const hashCalculator = new HashCalculator();
 const blockCreator = new BlockCreator(hashCalculator, logger);
 const chainCreator = new BlockChainCreator(blockCreator, fileService);
-const chainValidator = new BlockChainValidator(fileService, hashCalculator, logger);
 const defaultDifficulty = 2;
 
 function filenameSupplied(): boolean {
@@ -55,7 +54,8 @@ if (program.add) {
 
 if (program.validate) {
     if (filenameSupplied()) {
-        chainValidator.validateBlock(program.filename);
+        const chainValidator = new BlockChainValidator(fileService, hashCalculator, logger, program.filename);
+        chainValidator.validateBlock();
     } else {
         logger.logError(ErrorMessage.noFilename);
     }

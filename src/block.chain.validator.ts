@@ -11,13 +11,14 @@ export class BlockChainValidator {
 
     constructor(private fileService: FileService,
                 private hashCalculator: HashCalculator,
-                private logger: Logger) {
+                private logger: Logger,
+                private fileName: string) {
+        this.chain = this.fileService.getChain(fileName).chain;
     }
 
-    public validateBlock(filename: string): void {
+    public validateBlock(): void {
         let chainValid: boolean = true;
         const invalidBlocks: Block[] = [];
-        this.chain = this.fileService.getChain(filename).chain;
         this.chain.forEach((block) => {
             if (!this.isValid(block)) {
                 chainValid = false;
